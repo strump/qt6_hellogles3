@@ -17,9 +17,9 @@
 GLWindow::GLWindow()
 {
     m_world.setToIdentity();
-    m_world.translate(0, 0, 10);
+    m_world.translate(0, 0, 0);
     m_world.rotate(180, 1, 0, 0);
-    setZ(50.0f);
+    setZ(5.0f);
 
     /*QSequentialAnimationGroup *animGroup = new QSequentialAnimationGroup(this);
     animGroup->setLoopCount(-1);
@@ -94,8 +94,6 @@ void GLWindow::setR2(float v)
 static const char *vertexShaderSource =
     "layout(location = 0) in vec4 vertex;\n"
     "layout(location = 1) in vec3 normal;\n"
-    "out vec3 vert;\n"
-    "out vec3 vertNormal;\n"
     "out vec3 color;\n"
     "uniform mat4 projMatrix;\n"
     "uniform mat4 camMatrix;\n"
@@ -103,28 +101,16 @@ static const char *vertexShaderSource =
     "uniform mat4 myMatrix;\n"
     "uniform sampler2D sampler;\n"
     "void main() {\n"
-    //"   ivec2 pos = ivec2(gl_InstanceID % 32, gl_InstanceID / 32);\n"
-    "   ivec2 pos = ivec2(2, 10);\n"
-    "   vec2 t = vec2(float(-16 + pos.x) * 0.8, float(-18 + pos.y) * 0.6);\n"
-    "   float val = 2.0 * length(texelFetch(sampler, pos, 0).rgb);\n"
-    "   mat4 wm = myMatrix * mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, t.x, t.y, val, 1) * worldMatrix;\n"
-    "   color = texelFetch(sampler, pos, 0).rgb * vec3(0.4, 1.0, 0.0);\n"
-    "   vert = vec3(wm * vertex);\n"
-    "   vertNormal = mat3(transpose(inverse(wm))) * normal;\n"
+    "   mat4 wm = myMatrix * worldMatrix;\n"
+    "   color = vec3(0.0, 1.0, 0.0);\n"
     "   gl_Position = projMatrix * camMatrix * wm * vertex;\n"
     "}\n";
 
 static const char *fragmentShaderSource =
-    "in highp vec3 vert;\n"
-    "in highp vec3 vertNormal;\n"
     "in highp vec3 color;\n"
     "out highp vec4 fragColor;\n"
-    "uniform highp vec3 lightPos;\n"
     "void main() {\n"
-    "   highp vec3 L = normalize(lightPos - vert);\n"
-    "   highp float NL = max(dot(normalize(vertNormal), L), 0.0);\n"
-    "   highp vec3 col = clamp(color * 0.2 + color * 0.8 * NL, 0.0, 1.0);\n"
-    "   fragColor = vec4(col, 1.0);\n"
+    "   fragColor = vec4(color, 1.0);\n"
     "}\n";
 
 QByteArray versionedShaderCode(const char *src)
@@ -173,7 +159,6 @@ void GLWindow::initializeGL()
     m_camMatrixLoc = m_program->uniformLocation("camMatrix");
     m_worldMatrixLoc = m_program->uniformLocation("worldMatrix");
     m_myMatrixLoc = m_program->uniformLocation("myMatrix");
-    m_lightPosLoc = m_program->uniformLocation("lightPos");
 
     // Create a VAO. Not strictly required for ES 3, but it is for plain OpenGL.
     delete m_vao;
@@ -232,7 +217,6 @@ void GLWindow::paintGL()
         mm.setToIdentity();
         mm.rotate(-m_r2, 1, 0, 0);
         m_program->setUniformValue(m_myMatrixLoc, mm);
-        m_program->setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
     }
 
     // Now call a function introduced in OpenGL 3.1 / OpenGL ES 3.0. We

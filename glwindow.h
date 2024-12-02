@@ -51,7 +51,6 @@ private:
     int m_camMatrixLoc = 0;
     int m_worldMatrixLoc = 0;
     int m_myMatrixLoc = 0;
-    int m_lightPosLoc = 0;
     QMatrix4x4 m_proj;
     QMatrix4x4 m_world;
     QVector3D m_eye;
