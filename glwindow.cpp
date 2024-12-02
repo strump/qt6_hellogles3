@@ -91,7 +91,6 @@ void GLWindow::setR2(float v)
 }
 
 static const char *vertexShaderSource =
-    "#version 330 core\n"
     "layout(location = 0) in vec4 vertex;\n"
     "layout(location = 1) in vec3 normal;\n"
     "out vec3 vert;\n"
@@ -114,7 +113,6 @@ static const char *vertexShaderSource =
     "}\n";
 
 static const char *fragmentShaderSource =
-    "#version 330 core\n"
     "in highp vec3 vert;\n"
     "in highp vec3 vertNormal;\n"
     "in highp vec3 color;\n"
