@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
 
     // Request OpenGL 3.3 core or OpenGL ES 3.0.
     if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL) {
-        qDebug("Requesting 3.3 core context");
-        fmt.setVersion(3, 3);
+        qDebug("Requesting 3.2 core context");
+        fmt.setVersion(3, 2);
         fmt.setProfile(QSurfaceFormat::CoreProfile);
     } else {
         qDebug("Requesting 3.0 context");
@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
     QSurfaceFormat::setDefaultFormat(fmt);
 
     GLWindow glWindow;
-    glWindow.showMaximized();
+    glWindow.show();
+    glWindow.resize(800, 600);
 
     return app.exec();
 }

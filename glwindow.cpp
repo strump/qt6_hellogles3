@@ -13,6 +13,7 @@
 #include <QSequentialAnimationGroup>
 #include <QTimer>
 
+
 GLWindow::GLWindow()
 {
     m_world.setToIdentity();
@@ -102,7 +103,8 @@ static const char *vertexShaderSource =
     "uniform mat4 myMatrix;\n"
     "uniform sampler2D sampler;\n"
     "void main() {\n"
-    "   ivec2 pos = ivec2(gl_InstanceID % 32, gl_InstanceID / 32);\n"
+    //"   ivec2 pos = ivec2(gl_InstanceID % 32, gl_InstanceID / 32);\n"
+    "   ivec2 pos = ivec2(2, 10);\n"
     "   vec2 t = vec2(float(-16 + pos.x) * 0.8, float(-18 + pos.y) * 0.6);\n"
     "   float val = 2.0 * length(texelFetch(sampler, pos, 0).rgb);\n"
     "   mat4 wm = myMatrix * mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, t.x, t.y, val, 1) * worldMatrix;\n"
@@ -184,7 +186,8 @@ void GLWindow::initializeGL()
     m_vbo = new QOpenGLBuffer;
     m_vbo->create();
     m_vbo->bind();
-    m_vbo->allocate(m_logo.constData(), m_logo.count() * sizeof(GLfloat));
+    //m_vbo->allocate(m_logo.constData(), m_logo.count() * sizeof(GLfloat));
+    m_vbo->allocate(m_triangleData.constData(), m_triangleData.count() * sizeof(GLfloat));
     f->glEnableVertexAttribArray(0);
     f->glEnableVertexAttribArray(1);
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
@@ -234,6 +237,21 @@ void GLWindow::paintGL()
 
     // Now call a function introduced in OpenGL 3.1 / OpenGL ES 3.0. We
     // requested a 3.3 or ES 3.0 context, so we know this will work.
-    f->glDrawArraysInstanced(GL_TRIANGLES, 0, m_logo.vertexCount(), 32 * 36);
-    //f->glDrawArrays(GL_TRIANGLES, 0, 3);
+    //f->glDrawArraysInstanced(GL_TRIANGLES, 0, m_logo.vertexCount(), 32 * 10);
+    f->glDrawArrays(GL_TRIANGLES, 0, 30);
+
+    dumpErrors();
+}
+
+void GLWindow::dumpErrors() {
+    QOpenGLExtraFunctions *f = QOpenGLContext::currentContext()->extraFunctions();
+
+    GLenum error = GL_NO_ERROR;
+
+    do {
+        error = f->glGetError();
+        if (error != GL_NO_ERROR) {
+            qDebug() << "Found error: "<< error;
+        }
+    } while (error != GL_NO_ERROR);
 }

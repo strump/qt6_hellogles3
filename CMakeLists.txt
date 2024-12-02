@@ -10,6 +10,8 @@ qt_standard_project_setup()
 
 qt_add_executable(hellogles3
     logo.cpp logo.h
+    triangle_data.cpp triangle_data.h
+    triangle_data_2d.cpp triangle_data_2d.h
     glwindow.cpp glwindow.h
     main.cpp
 )

@@ -8,6 +8,7 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 #include "logo.h"
+#include "triangle_data.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLTexture)
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
@@ -36,6 +37,7 @@ public:
     void setR(float v);
     float r2() const { return m_r2; }
     void setR2(float v);
+    void dumpErrors();
 private slots:
     void startSecondStage();
 private:
@@ -44,6 +46,7 @@ private:
     QOpenGLBuffer *m_vbo = nullptr;
     QOpenGLVertexArrayObject *m_vao = nullptr;
     Logo m_logo;
+    TriangleData m_triangleData;
     int m_projMatrixLoc = 0;
     int m_camMatrixLoc = 0;
     int m_worldMatrixLoc = 0;
