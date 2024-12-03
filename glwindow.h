@@ -4,7 +4,7 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QOpenGLWindow>
+#include <QOpenGLWidget>
 #include <QMatrix4x4>
 #include <QVector3D>
 #include "logo.h"
@@ -15,7 +15,7 @@ QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 QT_FORWARD_DECLARE_CLASS(QOpenGLBuffer)
 QT_FORWARD_DECLARE_CLASS(QOpenGLVertexArrayObject)
 
-class GLWindow : public QOpenGLWindow
+class GLWindow : public QOpenGLWidget
 {
     Q_OBJECT
     Q_PROPERTY(float z READ z WRITE setZ)

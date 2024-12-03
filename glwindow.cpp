@@ -131,6 +131,7 @@ void GLWindow::initializeGL()
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
 
+    qDebug() << "Qt version:" << qVersion();
     qDebug() << "OpenGL version:" << (const char*)f->glGetString(GL_VERSION);
     qDebug() << "Widget OpenGl: " << format().majorVersion() << "." << format().minorVersion();
     qDebug() << "Context valid: " << context()->isValid();
@@ -219,10 +220,7 @@ void GLWindow::paintGL()
         m_program->setUniformValue(m_myMatrixLoc, mm);
     }
 
-    // Now call a function introduced in OpenGL 3.1 / OpenGL ES 3.0. We
-    // requested a 3.3 or ES 3.0 context, so we know this will work.
-    //f->glDrawArraysInstanced(GL_TRIANGLES, 0, m_logo.vertexCount(), 32 * 10);
-    f->glDrawArrays(GL_TRIANGLES, 0, 30);
+    f->glDrawArrays(GL_TRIANGLES, 0, m_triangleData.vertexCount());
 
     dumpErrors();
 }

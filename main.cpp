@@ -1,7 +1,7 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QSurfaceFormat>
 #include <QOpenGLContext>
 
@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QSurfaceFormat fmt;
     fmt.setDepthBufferSize(24);
