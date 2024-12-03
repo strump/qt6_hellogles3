@@ -15,7 +15,7 @@ QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 QT_FORWARD_DECLARE_CLASS(QOpenGLBuffer)
 QT_FORWARD_DECLARE_CLASS(QOpenGLVertexArrayObject)
 
-class GLWindow : public QOpenGLWidget
+class GLWidget : public QOpenGLWidget
 {
     Q_OBJECT
     Q_PROPERTY(float z READ z WRITE setZ)
@@ -23,8 +23,8 @@ class GLWindow : public QOpenGLWidget
     Q_PROPERTY(float r2 READ r2 WRITE setR2)
 
 public:
-    GLWindow();
-    ~GLWindow();
+    GLWidget();
+    ~GLWidget();
 
     void initializeGL();
     void resizeGL(int w, int h);

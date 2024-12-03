@@ -1,7 +1,7 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include "glwindow.h"
+#include "glwidget.h"
 #include <QImage>
 #include <QOpenGLTexture>
 #include <QOpenGLShaderProgram>
@@ -14,7 +14,7 @@
 #include <QTimer>
 
 
-GLWindow::GLWindow()
+GLWidget::GLWidget()
 {
     m_world.setToIdentity();
     m_world.translate(0, 0, 0);
@@ -51,7 +51,7 @@ GLWindow::GLWindow()
     //QTimer::singleShot(4000, this, &GLWindow::startSecondStage);
 }
 
-GLWindow::~GLWindow()
+GLWidget::~GLWidget()
 {
     makeCurrent();
     delete m_texture;
@@ -60,7 +60,7 @@ GLWindow::~GLWindow()
     delete m_vao;
 }
 
-void GLWindow::startSecondStage()
+void GLWidget::startSecondStage()
 {
     QPropertyAnimation* r2Anim = new QPropertyAnimation(this, QByteArrayLiteral("r2"));
     r2Anim->setStartValue(0.0f);
@@ -70,21 +70,21 @@ void GLWindow::startSecondStage()
     r2Anim->start();
 }
 
-void GLWindow::setZ(float v)
+void GLWidget::setZ(float v)
 {
     m_eye.setZ(v);
     m_uniformsDirty = true;
     update();
 }
 
-void GLWindow::setR(float v)
+void GLWidget::setR(float v)
 {
     m_r = v;
     m_uniformsDirty = true;
     update();
 }
 
-void GLWindow::setR2(float v)
+void GLWidget::setR2(float v)
 {
     m_r2 = v;
     m_uniformsDirty = true;
@@ -126,7 +126,7 @@ QByteArray versionedShaderCode(const char *src)
     return versionedSrc;
 }
 
-void GLWindow::initializeGL()
+void GLWidget::initializeGL()
 {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
@@ -186,14 +186,14 @@ void GLWindow::initializeGL()
     f->glEnable(GL_CULL_FACE);
 }
 
-void GLWindow::resizeGL(int w, int h)
+void GLWidget::resizeGL(int w, int h)
 {
     m_proj.setToIdentity();
     m_proj.perspective(45.0f, GLfloat(w) / h, 0.01f, 100.0f);
     m_uniformsDirty = true;
 }
 
-void GLWindow::paintGL()
+void GLWidget::paintGL()
 {
     // Now use QOpenGLExtraFunctions instead of QOpenGLFunctions as we want to
     // do more than what GL(ES) 2.0 offers.
@@ -225,7 +225,7 @@ void GLWindow::paintGL()
     dumpErrors();
 }
 
-void GLWindow::dumpErrors() {
+void GLWidget::dumpErrors() {
     QOpenGLExtraFunctions *f = QOpenGLContext::currentContext()->extraFunctions();
 
     GLenum error = GL_NO_ERROR;
