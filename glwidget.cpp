@@ -54,7 +54,6 @@ GLWidget::GLWidget()
 GLWidget::~GLWidget()
 {
     makeCurrent();
-    delete m_texture;
     delete m_program;
     delete m_vbo;
     delete m_vao;
@@ -143,11 +142,6 @@ void GLWidget::initializeGL()
     qDebug() << "Has GL_KHR_debug" << context()->hasExtension(QByteArray("GL_KHR_debug"));
 
 
-    QImage img(":/qtlogo.png");
-    Q_ASSERT(!img.isNull());
-    delete m_texture;
-    m_texture = new QOpenGLTexture(img.scaled(32, 36).mirrored());
-
     delete m_program;
     m_program = new QOpenGLShaderProgram;
     // Prepend the correct version directive to the sources. The rest is the
@@ -203,7 +197,6 @@ void GLWidget::paintGL()
     f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_program->bind();
-    m_texture->bind();
 
     if (m_uniformsDirty) {
         m_uniformsDirty = false;

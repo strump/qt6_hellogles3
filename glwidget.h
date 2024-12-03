@@ -41,7 +41,6 @@ public:
 private slots:
     void startSecondStage();
 private:
-    QOpenGLTexture *m_texture = nullptr;
     QOpenGLShaderProgram *m_program = nullptr;
     QOpenGLBuffer *m_vbo = nullptr;
     QOpenGLVertexArrayObject *m_vao = nullptr;

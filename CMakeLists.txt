@@ -28,17 +28,6 @@ target_link_libraries(hellogles3 PRIVATE
     Qt6::OpenGLWidgets
 )
 
-# Resources:
-set(hellogles3_resource_files
-    "qtlogo.png"
-)
-
-qt_add_resources(hellogles3 "hellogles3"
-    PREFIX
-        "/"
-    FILES
-        ${hellogles3_resource_files}
-)
 
 install(TARGETS hellogles3
     BUNDLE  DESTINATION .
