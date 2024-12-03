@@ -41,12 +41,12 @@ GLWidget::GLWidget()
     animGroup->addAnimation(zAnim2);
     animGroup->start();*/
 
-    /*QPropertyAnimation* rAnim = new QPropertyAnimation(this, QByteArrayLiteral("r"));
+    QPropertyAnimation* rAnim = new QPropertyAnimation(this, QByteArrayLiteral("r2"));
     rAnim->setStartValue(0.0f);
     rAnim->setEndValue(360.0f);
     rAnim->setDuration(2000);
     rAnim->setLoopCount(-1);
-    rAnim->start();*/
+    rAnim->start();
 
     //QTimer::singleShot(4000, this, &GLWindow::startSecondStage);
 }
@@ -136,10 +136,10 @@ void GLWidget::initializeGL()
     qDebug() << "Widget OpenGl: " << format().majorVersion() << "." << format().minorVersion();
     qDebug() << "Context valid: " << context()->isValid();
     qDebug() << "Really used OpenGl: " << context()->format().majorVersion() << "." << context()->format().minorVersion();
-    qDebug() << "OpenGl information: VENDOR:       " << (const char*)glGetString(GL_VENDOR);
-    qDebug() << "                    RENDERDER:    " << (const char*)glGetString(GL_RENDERER);
-    qDebug() << "                    VERSION:      " << (const char*)glGetString(GL_VERSION);
-    qDebug() << "                    GLSL VERSION: " << (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+    qDebug() << "OpenGl information: VENDOR:       " << (const char*)f->glGetString(GL_VENDOR);
+    qDebug() << "                    RENDERDER:    " << (const char*)f->glGetString(GL_RENDERER);
+    qDebug() << "                    VERSION:      " << (const char*)f->glGetString(GL_VERSION);
+    qDebug() << "                    GLSL VERSION: " << (const char*)f->glGetString(GL_SHADING_LANGUAGE_VERSION);
     qDebug() << "Has GL_KHR_debug" << context()->hasExtension(QByteArray("GL_KHR_debug"));
 
 
