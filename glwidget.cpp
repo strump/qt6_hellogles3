@@ -41,14 +41,26 @@ GLWidget::GLWidget()
     animGroup->addAnimation(zAnim2);
     animGroup->start();*/
 
-    QPropertyAnimation* rAnim = new QPropertyAnimation(this, QByteArrayLiteral("r2"));
-    rAnim->setStartValue(0.0f);
-    rAnim->setEndValue(360.0f);
+    /*QPropertyAnimation* rAnim = new QPropertyAnimation(this, QByteArrayLiteral("r2"));
+    rAnim->setStartValue(90.0f);
+    rAnim->setEndValue(180.0f);
     rAnim->setDuration(2000);
     rAnim->setLoopCount(-1);
-    rAnim->start();
+    rAnim->start();*/
 
-    //QTimer::singleShot(4000, this, &GLWindow::startSecondStage);
+    QSequentialAnimationGroup *animGroup = new QSequentialAnimationGroup(this);
+    animGroup->setLoopCount(-1);
+    QPropertyAnimation* rAnim0 = new QPropertyAnimation(this, QByteArrayLiteral("r2"));
+    rAnim0->setStartValue(90.0f);
+    rAnim0->setEndValue(180.0f);
+    rAnim0->setDuration(1000);
+    animGroup->addAnimation(rAnim0);
+    QPropertyAnimation* rAnim1 = new QPropertyAnimation(this, QByteArrayLiteral("r2"));
+    rAnim1->setStartValue(180.0f);
+    rAnim1->setEndValue(90.0f);
+    rAnim1->setDuration(1000);
+    animGroup->addAnimation(rAnim1);
+    animGroup->start();
 }
 
 GLWidget::~GLWidget()
@@ -91,8 +103,7 @@ void GLWidget::setR2(float v)
 }
 
 static const char *vertexShaderSource =
-    "layout(location = 0) in vec4 vertex;\n"
-    "layout(location = 1) in vec3 normal;\n"
+    "layout(location = 0) in vec4 a_vertex;\n"
     "out vec3 color;\n"
     "uniform mat4 projMatrix;\n"
     "uniform mat4 camMatrix;\n"
@@ -102,7 +113,7 @@ static const char *vertexShaderSource =
     "void main() {\n"
     "   mat4 wm = myMatrix * worldMatrix;\n"
     "   color = vec3(0.0, 1.0, 0.0);\n"
-    "   gl_Position = projMatrix * camMatrix * wm * vertex;\n"
+    "   gl_Position = projMatrix * camMatrix * wm * a_vertex;\n"
     "}\n";
 
 static const char *fragmentShaderSource =
@@ -166,14 +177,10 @@ void GLWidget::initializeGL()
     m_vbo = new QOpenGLBuffer;
     m_vbo->create();
     m_vbo->bind();
-    //m_vbo->allocate(m_logo.constData(), m_logo.count() * sizeof(GLfloat));
     m_vbo->allocate(m_triangleData.constData(), m_triangleData.count() * sizeof(GLfloat));
     f->glEnableVertexAttribArray(0);
-    f->glEnableVertexAttribArray(1);
-    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
+    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
                              nullptr);
-    f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
-                             reinterpret_cast<void *>(3 * sizeof(GLfloat)));
     m_vbo->release();
 
     f->glEnable(GL_DEPTH_TEST);

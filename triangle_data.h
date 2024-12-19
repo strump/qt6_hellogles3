@@ -18,7 +18,7 @@ public:
 
 private:
     void triangle(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2, GLfloat x3, GLfloat y3);
-    void add(const QVector3D &v, const QVector3D &n);
+    void add(const QVector3D &v);
 
     QList<GLfloat> m_data;
     int m_count = 0;
